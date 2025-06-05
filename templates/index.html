@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ML Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Health Condition Predictor</h1>
+        <p class="subtitle">Enter the required medical values below</p>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST">
+            {% for feature in features %}
+                <div class="form-group">
+                    <label>{{ feature.name }} <span class="range-hint">{{ feature.range }}</span></label>
+                    <input type="text" name="{{ feature.name }}" required>
+                </div>
+            {% endfor %}
+
+            <div class="form-group">
+                <label>Diabetes Mellitus</label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="diabetes" value="no" required>
+                        <span class="custom-radio"></span> No
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="diabetes" value="yes">
+                        <span class="custom-radio"></span> Yes
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <input type="submit" value="Predict">
+            </div>
+        </form>
+
+        {% if prediction is not none %}
+            <div class="result">
+                <h2>Predicted Class:</h2>
+                <p>{{ prediction }}</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
