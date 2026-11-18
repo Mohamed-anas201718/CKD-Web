@@ -6,9 +6,10 @@ import os
 app = Flask(__name__)
 
 # Load models
-model_path = os.path.join("models", "decision_tree_model.pkl")
-scaler_path = os.path.join("models", "scaler.pkl")
-pca_path = os.path.join("models", "pca_model.pkl")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(BASE_DIR, "models", "decision_tree_model.pkl")
+scaler_path = os.path.join(BASE_DIR, "models", "scaler.pkl")
+pca_path = os.path.join(BASE_DIR, "models", "pca_model.pkl")
 
 DT = joblib.load(model_path)
 sc = joblib.load(scaler_path)
