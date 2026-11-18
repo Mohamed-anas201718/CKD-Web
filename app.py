@@ -30,7 +30,13 @@ features = [
 @app.route('/', methods=['GET', 'POST'])
 def index():
     prediction = None
+    prediction_class = None
     error = None
+
+    label_map = {
+        "ckd": ("Chronic Kidney Disease (CKD) Detected", "ckd"),
+        "notckd": ("No Chronic Kidney Disease (Healthy)", "notckd"),
+    }
 
     if request.method == 'POST':
         try:
@@ -50,12 +56,21 @@ def index():
             raw_input = np.array(input_data).reshape(1, -1)
             scaled_input = sc.transform(raw_input)
             pca_input = pca.transform(scaled_input)
-            prediction = DT.predict(pca_input)[0]
+            raw_prediction = str(DT.predict(pca_input)[0]).strip().lower()
+            prediction, prediction_class = label_map.get(
+                raw_prediction, (raw_prediction, "neutral")
+            )
 
         except ValueError:
             error = "Please enter valid numerical values and select diabetes status."
 
-    return render_template('index.html', features=features, prediction=prediction, error=error)
+    return render_template(
+        'index.html',
+        features=features,
+        prediction=prediction,
+        prediction_class=prediction_class,
+        error=error,
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)

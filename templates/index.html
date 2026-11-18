@@ -43,9 +43,9 @@
         </form>
 
         {% if prediction is not none %}
-            <div class="result">
-                <h2>Predicted Class:</h2>
-                <p>{{ prediction }}</p>
+            <div class="result result-{{ prediction_class }}">
+                <h2>Prediction Result</h2>
+                <p class="result-text">{{ prediction }}</p>
             </div>
         {% endif %}
     </div>
